@@ -17,10 +17,10 @@
 
 ## Datos
 
-- **Nombre:**
-- **Cédula:**
-- **NN (dos últimos dígitos):**
-- **Categoría asignada (según el último dígito):**
+- **Nombre:** Jose Hugo Grande Velasquez
+- **Cédula:** 1726353160
+- **NN (dos últimos dígitos):** 60
+- **Categoría asignada (según el último dígito):** Cacao
 
 ---
 
@@ -28,23 +28,30 @@
 
 **1.1** ¿Qué archivo activa el perfil `prod` y qué línea exacta lo hace?
 
->
+>El perfil prod se activa en `src/main/resources/application.properties`
+> mediante la línea `spring.profiles.active=prod`.
 
 **1.2** Pega la línea del log de arranque donde se ve tu puerto y el perfil activo.
 
-```
-
+```text
+The following 1 profile is active: "prod"
+Netty started on port 8160 (http)
 ```
 
 **1.3** ¿Qué habría pasado si dejabas `ddl-auto=create-drop` en lugar de `update`?
 Responde pensando en tus datos sembrados.
 
->
+>Si utilizara ddl-auto=create-drop, Hibernate eliminaría la tabla y los
+productos sembrados cada vez que se cerrara la aplicación. Con update
+se conserva la información existente y solamente se actualiza la estructura.
 
 **1.4** ¿Levantaste PostgreSQL con `compose.yaml` (Opción A) o con una instalación local
 (Opción B)? ¿Qué ventaja tiene la que elegiste?
 
->
+>Levanté PostgreSQL mediante compose.yaml, correspondiente a la Opción A.
+Elegí esta opción porque Docker crea un entorno reproducible y Spring Boot
+obtiene automáticamente la conexión. Utilicé el puerto externo 5433 para
+evitar un conflicto con otra instalación local de PostgreSQL en el puerto 5432.
 
 ---
 
