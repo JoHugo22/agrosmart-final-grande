@@ -199,29 +199,58 @@ qué no son intercambiables en esos dos lugares?
 **5.1** Pega tu interfaz `AgroSmartAIService` completa.
 
 ```java
+@AiService
+public interface AgroSmartAIService {
 
+    @UserMessage("""
+            Redacta una frase publicitaria de máximo 100 caracteres para vender \
+            {{producto}} dirigido a {{audiencia}}.
+            """)
+    String generarPublicidad(
+            @V("producto") String producto,
+            @V("audiencia") String audiencia
+    );
+}
 ```
 
 **5.2** ¿Qué hace `@V("producto")` y qué pasaría si lo quitaras dejando solo el
 parámetro?
 
->
+> En mi interfaz `AgroSmartAIService`, la anotación
+> `@V("producto")` relaciona el parámetro Java `producto` con la variable
+> `{{producto}}` que aparece en el texto de `@UserMessage`. Si quitara la
+> anotación, LangChain4j podría no identificar qué valor debe reemplazar en
+> esa variable del prompt.
 
 **5.3** ¿En qué archivo y con qué líneas configuraste el modelo? ¿Por qué **no** hizo
 falta declarar un `@Bean`?
 
->
+> Configuré el modelo en
+> `src/main/resources/application-prod.properties` mediante las propiedades
+> `langchain4j.open-ai.chat-model.api-key`,
+> `langchain4j.open-ai.chat-model.model-name` y
+> `langchain4j.open-ai.chat-model.timeout`. No declaré un `@Bean` porque el
+> starter de LangChain4j crea y configura automáticamente el modelo y la
+> implementación de mi interfaz anotada con `@AiService`.
 
 **5.4** ¿Por qué la llamada a la IA también necesita `boundedElastic`, si no es una
 consulta a base de datos?
 
->
+> Configuré el modelo en
+> `src/main/resources/application-prod.properties` mediante las propiedades
+> `langchain4j.open-ai.chat-model.api-key`,
+> `langchain4j.open-ai.chat-model.model-name` y
+> `langchain4j.open-ai.chat-model.timeout`. No declaré un `@Bean` porque el
+> starter de LangChain4j crea y configura automáticamente el modelo y la
+> implementación de mi interfaz anotada con `@AiService`.
 
 **5.5** Si tu proveedor devolvió un error durante el examen, pega el mensaje real y la
 respuesta que produjo tu `onErrorResume`.
 
 ```
-
+> Esta prueba se completará en la Fase 6 cuando ejecute el endpoint real con
+> `curl`. No inventé una respuesta del proveedor antes de realizar la
+> petición.
 ```
 
 ---

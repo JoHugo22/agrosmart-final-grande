@@ -1,6 +1,7 @@
 package ec.edu.espe.agrosmart.service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -27,11 +28,14 @@ public class ProductoService {
             );
 
     private final ProductoRepository productoRepository;
+    private final AgroSmartAIService aiService;
 
     public ProductoService(
-            ProductoRepository productoRepository
+            ProductoRepository productoRepository,
+            AgroSmartAIService aiService
     ) {
         this.productoRepository = productoRepository;
+        this.aiService = aiService;
     }
 
     /**
@@ -43,7 +47,7 @@ public class ProductoService {
         return Mono.fromCallable(productoRepository::findAll)
 
                 // JPA es bloqueante, por eso se ejecuta
-                // en el scheduler boundedElastic.
+                // en boundedElastic.
                 .subscribeOn(Schedulers.boundedElastic())
 
                 // Convierte la lista obtenida por JPA en un Flux.
@@ -52,24 +56,21 @@ public class ProductoService {
                 // Convierte ProductoEntity en Producto inmutable.
                 .map(ProductoMapper::toDominio)
 
-                // Genera un nuevo producto con el nombre en mayúsculas.
+                // Crea un nuevo producto con el nombre en mayúsculas.
                 .map(ProductoFilters.A_MAYUSCULAS)
 
-                // Solo conserva productos con precio mayor que cero
-                // y al menos un correo de notificación.
+                // Conserva únicamente los productos válidos.
                 .filter(ProductoFilters.IS_VALID)
 
-                // Registra cada producto procesado sin modificarlo.
+                // Registra cada producto sin alterar el flujo.
                 .doOnNext(ProductoFilters.LOG_PRODUCTO)
 
-                // Si ningún producto cumple las condiciones,
-                // devuelve un producto genérico.
+                // Emite un producto genérico cuando no queda ninguno.
                 .defaultIfEmpty(PRODUCTO_GENERICO);
     }
 
     /**
-     * Busca un producto por su identificador utilizando JPA
-     * dentro de boundedElastic.
+     * Busca un producto por su identificador.
      */
     public Mono<Producto> buscarPorId(Long id) {
 
@@ -77,21 +78,51 @@ public class ProductoService {
                         () -> productoRepository.findById(id)
                 )
 
-                // findById es una operación bloqueante de JPA.
+                // findById es bloqueante porque utiliza JPA.
                 .subscribeOn(Schedulers.boundedElastic())
 
-                // Convierte el Optional en Mono.
-                .flatMap(optional ->
-                        Mono.justOrEmpty(optional)
-                )
+                // Convierte Optional<ProductoEntity> en Mono<ProductoEntity>.
+                .flatMap(Mono::justOrEmpty)
 
-                // Convierte la entidad al modelo inmutable.
+                // Convierte la entidad al dominio inmutable.
                 .map(ProductoMapper::toDominio)
 
-                // Si no existe el producto, emite un error reactivo.
+                // Emite un error reactivo cuando no existe el producto.
                 .switchIfEmpty(
                         Mono.error(
                                 new ProductoNoEncontradoException(id)
+                        )
+                );
+    }
+
+    /**
+     * Genera publicidad con LangChain4j sin bloquear
+     * los hilos del servidor WebFlux.
+     */
+    public Mono<String> generarPublicidad(
+            String producto,
+            String audiencia
+    ) {
+
+        return Mono.fromCallable(
+                        () -> aiService.generarPublicidad(
+                                producto,
+                                audiencia
+                        )
+                )
+
+                // La petición HTTP al modelo de IA es bloqueante.
+                .subscribeOn(Schedulers.boundedElastic())
+
+                // Evita esperar indefinidamente al proveedor externo.
+                .timeout(Duration.ofSeconds(30))
+
+                // Un fallo del proveedor no debe tumbar el endpoint.
+                .onErrorResume(error ->
+                        Mono.just(
+                                "Publicidad no disponible en este momento ("
+                                        + error.getClass().getSimpleName()
+                                        + ")"
                         )
                 );
     }
