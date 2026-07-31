@@ -302,28 +302,142 @@ Con Flux<Producto>, WebFlux envía los elementos de manera reactiva sin esperar 
 **7.1** Pega la salida real de tus pruebas (`./mvnw test` o `./gradlew test`).
 
 ```
-
+S C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> .\mvnw.cmd -Dtest=PublicidadServiceTest test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< ec.edu.espe:agrosmart >------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ agrosmart ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ agrosmart ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ agrosmart ---
+[INFO] skip non existing resourceDirectory C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ agrosmart ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ agrosmart ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running ec.edu.espe.agrosmart.service.PublicidadServiceTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\HUGO GRANDE\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.10\byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.102 s -- in ec.edu.espe.agrosmart.service.PublicidadServiceTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.905 s
+[INFO] Finished at: 2026-07-30T23:29:04-05:00
+[INFO] ------------------------------------------------------------------------
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> .\mvnw.cmd test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< ec.edu.espe:agrosmart >------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ agrosmart ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ agrosmart ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ agrosmart ---
+[INFO] skip non existing resourceDirectory C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ agrosmart ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ agrosmart ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running ec.edu.espe.agrosmart.domain.ProductoFiltersTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.165 s -- in ec.edu.espe.agrosmart.domain.ProductoFiltersTest
+[INFO] Running ec.edu.espe.agrosmart.domain.ProductoTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in ec.edu.espe.agrosmart.domain.ProductoTest
+[INFO] Running ec.edu.espe.agrosmart.service.ProductoServiceTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\HUGO GRANDE\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.10\byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Producto procesado: id=null, nombre=CACAO FINO DE AROMA
+Producto procesado: id=null, nombre=PASTA ARTESANAL DE CACAO
+Producto procesado: id=null, nombre=NIBS NATURALES DE CACAO
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.211 s -- in ec.edu.espe.agrosmart.service.ProductoServiceTest
+[INFO] Running ec.edu.espe.agrosmart.service.PublicidadServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.138 s -- in ec.edu.espe.agrosmart.service.PublicidadServiceTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.517 s
+[INFO] Finished at: 2026-07-30T23:29:33-05:00
+[INFO] ------------------------------------------------------------------------
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> 
 ```
 
 **7.2** ¿Cuántos productos espera tu `expectNextCount(...)` y por qué ese número
 concreto? Relaciónalo con tu semilla.
-
->
+> Mi `expectNextCount(3)` espera tres productos porque sembré exactamente
+> tres productos comercializables y dos inválidos. Los dos inválidos son
+> descartados por `ProductoFilters.IS_VALID`: uno tiene precio igual a cero
+> y el otro no tiene correos. Los cinco productos pertenecen a mi categoría
+> asignada, Cacao.
 
 **7.3** ¿Por qué mockeaste `ProductoRepository` en lugar de dejar que la prueba consulte
 PostgreSQL?
-
->
+> Mockeé `ProductoRepository` para que `ProductoServiceTest` sea una prueba
+> unitaria aislada. De esta manera no necesito que PostgreSQL ni Docker estén
+> ejecutándose, controlo exactamente lo que devuelve `findAll()` y la prueba
+> produce siempre el mismo resultado.
 
 **7.4** ¿Qué demuestra `assertNotSame` que `assertEquals` **no** demuestra en tu prueba
 de copia defensiva?
 
->
+> `assertEquals` comprueba que dos listas tengan el mismo contenido.
+> `assertNotSame` comprueba que no sean exactamente el mismo objeto en
+> memoria. En mi prueba demuestra que `Producto` conserva una copia
+> defensiva y no expone la lista original que recibió el constructor.
 
 **7.5** ¿Por qué una prueba de un `Flux` que no llama a `verifyComplete()` (o a
 `verify()`) no está probando nada?
 
->
+
+> Los flujos de Reactor son diferidos y no se ejecutan hasta que alguien se
+> suscribe. `verifyComplete()` o `verify()` hacen que `StepVerifier` se
+> suscriba, ejecute el flujo y compruebe sus señales. Sin esa llamada, la
+> prueba podría terminar sin haber ejecutado ni verificado realmente el
+> `Flux`.
 
 ---
 
