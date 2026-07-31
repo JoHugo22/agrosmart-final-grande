@@ -446,20 +446,63 @@ de copia defensiva?
 **8.1** Pega tu `git log --oneline --graph --all`.
 
 ```
+S C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe http://localhost:8160/api/productos
+[{"id":1,"nombre":"CACAO FINO DE AROMA","categoria":"Cacao","precioUsd":8.50,"correosNotificacion":["ventas@agrosmart.com"]},{"id":2,"nombre":"PASTA ARTESANAL DE CACAO","categoria":"Cacao","precioUsd":12.75,"correosNotificacion":["comercial@agrosmart.com"]},{"id":3,"nombre":"NIBS NATURALES DE CACAO","categoria":"Cacao","precioUsd":6.40,"correosNotificacion":["pedidos@agrosmart.com"]}]
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe http://localhost:8160/api/productos/1
+{"id":1,"nombre":"Cacao fino de aroma","categoria":"Cacao","precioUsd":8.50,"correosNotificacion":["ventas@agrosmart.com"]}
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe -i http://localhost:8160/api/productos/9999
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 127
 
+{"timestamp":"2026-07-31T04:43:35.336Z","path":"/api/productos/9999","status":404,"error":"Not Found","requestId":"2c1623b1-4"}
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe "http://localhost:8160/api/agrosmart/publicidad?producto=Cacao%20fino%20de%20aroma&audiencia=exportadores%20europeos"
+"Descubre nuestro cacao fino de aroma: calidad premium para deleitar paladares europeos."
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> git log --oneline --graph --all
+* 450c100 (HEAD -> feature/documentacion, origin/feature/pruebas, feature/pruebas) test: agrega pruebas del modelo, logica funcional, flujo reactivo e ia
+* 227216e (origin/feature/api-reactiva, feature/api-reactiva) feat: expone endpoints reactivos y de publicidad
+* 6f34c79 (origin/feature/ia-langchain4j, feature/ia-langchain4j) feat: integra langchain4j para publicidad de productos
+* 42fa6b8 (origin/feature/servicio-reactivo, feature/servicio-reacti:
+* 450c100 (HEAD -> feature/documentacion, origin/feature/pruebas, feature/pruebas) test: agrega pruebas del modelo, logica funcional, flujo reactivo e ia
+* 227216e (origin/feature/api-reactiva, feature/api-reactiva) feat: expone endpoints reactivos y de publicidad
+* 6f34c79 (origin/feature/ia-langchain4j, feature/ia-langchain4j) feat: integra langchain4j para publicidad de productos
+* 42fa6b8 (origin/feature/servicio-reactivo, feature/servicio-reactivo) feat: implementa servicio reactivo con boundedElastic y operadores
+* fd13678 (feature/persistencia-jpa) feat: agrega modelo inmutable de producto y logica funcional
+* e88cafe (origin/feature/persistencia-jpa) fix: corrige los dos casos de productos invalidos
+:
 ```
 
 **8.2** ¿Qué fase te tomó más tiempo del previsto y por qué?
 
->
+> La fase que me tomó más tiempo del previsto fue la configuración y
+> conexión con PostgreSQL. Inicialmente Spring Boot no podía autenticarse
+> con el usuario `agrosmart`, aunque el contenedor estaba iniciado.
+> Posteriormente identifiqué que existía un conflicto con el puerto local
+> `5432`, por lo que configuré el puerto externo `5433` en `compose.yaml`.
+> Después de comprobar la conexión TCP y recrear el contenedor, la
+> aplicación pudo conectarse correctamente a `agrosmart_db`.
 
 **8.3** Si tuvieras 30 minutos más, ¿qué mejorarías **primero** de tu entrega y por qué
 esa y no otra?
 
->
+> Si tuviera 30 minutos adicionales, mejoraría primero el manejo uniforme
+> de errores de la API mediante una clase global con `@RestControllerAdvice`.
+> Elegiría esta mejora porque permitiría que errores como
+> `ProductoNoEncontradoException` y los fallos inesperados devuelvan
+> respuestas JSON consistentes, sin modificar la lógica reactiva principal
+> que ya está probada.
 
 **8.4** Declara honestamente qué herramientas consultaste durante el examen
 (documentación, apuntes, asistentes de IA) y para qué. **Esta declaración no descuenta
 puntaje**; su omisión o falsedad sí constituye falta de honestidad académica.
 
->
+> Durante el examen consulté el repositorio oficial y las plantillas
+> proporcionadas por el docente para verificar los requisitos de cada fase.
+> También utilicé la documentación de Spring Boot, Docker, PostgreSQL,
+> Project Reactor y LangChain4j para revisar configuraciones y errores.
+> Además, utilicé ChatGPT como asistente para recibir orientación paso a
+> paso, revisar errores de compilación y conexión, proponer estructuras de
+> código y explicar conceptos como `boundedElastic`, `fromCallable`,
+> `defaultIfEmpty`, `switchIfEmpty`, copias defensivas y StepVerifier.
+> Revisé y ejecuté el código en mi equipo, comprobando la base de datos,
+> los endpoints y las pruebas.
