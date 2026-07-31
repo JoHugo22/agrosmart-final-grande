@@ -260,17 +260,33 @@ respuesta que produjo tu `onErrorResume`.
 **6.1** Pega la salida real de tus cuatro `curl`.
 
 ```
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe http://localhost:8160/api/productos
+[{"id":1,"nombre":"CACAO FINO DE AROMA","categoria":"Cacao","precioUsd":8.50,"correosNotificacion":["ventas@agrosmart.com"]},{"id":2,"nombre":"PASTA ARTESANAL DE CACAO","categoria":"Cacao","precioUsd":12.75,"correosNotificacion":["comercial@agrosmart.com"]},{"id":3,"nombre":"NIBS NATURALES DE CACAO","categoria":"Cacao","precioUsd":6.40,"correosNotificacion":["pedidos@agrosmart.com"]}]
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe http://localhost:8160/api/productos/1
+{"id":1,"nombre":"Cacao fino de aroma","categoria":"Cacao","precioUsd":8.50,"correosNotificacion":["ventas@agrosmart.com"]}
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe -i http://localhost:8160/api/productos/9999
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+Content-Length: 127
 
+{"timestamp":"2026-07-31T04:01:27.726Z","path":"/api/productos/9999","status":404,"error":"Not Found","requestId":"e1bf21f4-3"}
+PS C:\Users\HUGO GRANDE\Downloads\agrosmart-final-grande> curl.exe "http://localhost:8160/api/agrosmart/publicidad?producto=Cacao%20fino%20de%20aroma&audiencia=exportadores%20europeos"
+"Descubre el sabor exquisito de nuestro cacao fino de aroma, ideal para los paladares europeos."
 ```
 
 **6.2** ¿Cómo lograste que el id inexistente responda **404** y no 500?
 
->
+>buscarPorId() usa switchIfEmpty(...).
+Ese operador emite ProductoNoEncontradoException.
+La excepción tiene @ResponseStatus(HttpStatus.NOT_FOUND).
+Por eso WebFlux devuelve HTTP 404 y no 500.
 
 **6.3** ¿Qué pasaría si tu controlador devolviera `List<Producto>` en lugar de
 `Flux<Producto>`? ¿Seguiría compilando? ¿Seguiría siendo no bloqueante?
 
->
+>Una firma List<Producto> sí podría compilar si cambias todo el método.
+Pero para obtener esa lista desde un Flux probablemente tendrías que bloquear o abandonar la composición reactiva.
+Con Flux<Producto>, WebFlux envía los elementos de manera reactiva sin esperar una colección completa.
 
 ---
 
