@@ -143,30 +143,55 @@ mayúsculas con toUpperCase(Locale.ROOT).
 **4.1** Pega tu método `obtenerProductosComercializables()` completo.
 
 ```java
+public Flux<Producto> obtenerProductosComercializables() {
 
+    return Mono.fromCallable(productoRepository::findAll)
+            .subscribeOn(Schedulers.boundedElastic())
+            .flatMapMany(Flux::fromIterable)
+            .map(ProductoMapper::toDominio)
+            .map(ProductoFilters.A_MAYUSCULAS)
+            .filter(ProductoFilters.IS_VALID)
+            .doOnNext(ProductoFilters.LOG_PRODUCTO)
+            .defaultIfEmpty(PRODUCTO_GENERICO);
+}
 ```
 
 **4.2** ¿Qué pasa **exactamente** si eliminas
 `.subscribeOn(Schedulers.boundedElastic())` de ese método? Si lo probaste, indica qué
 hilo aparecía en el log antes y después.
-
->
+> En mi método `obtenerProductosComercializables()` envolví
+> `productoRepository.findAll()` con
+> `subscribeOn(Schedulers.boundedElastic())`. Si elimino esa línea, la
+> operación bloqueante de Hibernate se ejecutaría en el hilo que se suscribe
+> al flujo. Cuando el servicio sea llamado desde WebFlux, podría bloquear uno
+> de los hilos del event loop de Netty y retrasar otras peticiones. No realicé
+> la prueba eliminando la línea, por lo que no voy a inventar un nombre de hilo.
 
 **4.3** ¿Por qué `Mono.fromCallable(...)` y no `Mono.just(repository.findAll())`?
 (pista: cuándo se ejecuta cada uno)
 
->
+> Usé `Mono.fromCallable(productoRepository::findAll)` porque difiere la
+> consulta hasta que alguien se suscribe al flujo. En cambio,
+> `Mono.just(productoRepository.findAll())` ejecutaría `findAll()` antes de
+> crear el `Mono`, por lo que la consulta bloqueante ocurriría inmediatamente
+> y fuera del control del scheduler.
 
 **4.4** En **tu** código, ¿dónde usaste `defaultIfEmpty` y dónde `switchIfEmpty`, y por
 qué no son intercambiables en esos dos lugares?
 
->
+> Usé `Mono.fromCallable(productoRepository::findAll)` porque difiere la
+> consulta hasta que alguien se suscribe al flujo. En cambio,
+> `Mono.just(productoRepository.findAll())` ejecutaría `findAll()` antes de
+> crear el `Mono`, por lo que la consulta bloqueante ocurriría inmediatamente
+> y fuera del control del scheduler.
 
 **4.5** ¿Por qué `doOnNext` no sirve para transformar el elemento, si aparentemente
 "recibe" el producto?
 
->
-
+> `doOnNext` está pensado para efectos secundarios, como registrar el id y el
+> nombre mediante `ProductoFilters.LOG_PRODUCTO`. Aunque recibe el producto,
+> conserva el mismo elemento dentro del flujo. Para transformarlo utilicé
+> `map(ProductoFilters.A_MAYUSCULAS)`, que devuelve un nuevo `Producto`.
 ---
 
 ## Fase 5 — Módulo de IA con LangChain4j
