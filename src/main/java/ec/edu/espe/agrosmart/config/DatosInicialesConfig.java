@@ -19,9 +19,11 @@ public class DatosInicialesConfig {
     ) {
         return args -> {
 
-            // Evita duplicar los productos cada vez que inicia la aplicación.
+            // Solo inserta los datos cuando la tabla está vacía.
             if (productoRepository.count() == 0) {
 
+                // Producto válido 1:
+                // precio mayor que cero y correo registrado.
                 ProductoEntity productoValido1 = new ProductoEntity(
                         "Cacao fino de aroma",
                         new BigDecimal("8.50"),
@@ -30,6 +32,8 @@ public class DatosInicialesConfig {
                         "ventas@agrosmart.com"
                 );
 
+                // Producto válido 2:
+                // precio mayor que cero y correo registrado.
                 ProductoEntity productoValido2 = new ProductoEntity(
                         "Pasta artesanal de cacao",
                         new BigDecimal("12.75"),
@@ -38,6 +42,8 @@ public class DatosInicialesConfig {
                         "comercial@agrosmart.com"
                 );
 
+                // Producto válido 3:
+                // precio mayor que cero y correo registrado.
                 ProductoEntity productoValido3 = new ProductoEntity(
                         "Nibs naturales de cacao",
                         new BigDecimal("6.40"),
@@ -46,17 +52,21 @@ public class DatosInicialesConfig {
                         "pedidos@agrosmart.com"
                 );
 
+                // Producto inválido 1:
+                // tiene correo, pero el precio es igual a cero.
                 ProductoEntity productoInvalido1 = new ProductoEntity(
                         "Cacao de prueba sin precio",
                         BigDecimal.ZERO,
                         40,
                         "Cacao",
-                        ""
+                        "control@agrosmart.com"
                 );
 
+                // Producto inválido 2:
+                // tiene precio mayor que cero, pero no tiene correo.
                 ProductoEntity productoInvalido2 = new ProductoEntity(
                         "Producto de cacao sin contacto",
-                        BigDecimal.ZERO,
+                        new BigDecimal("5.25"),
                         25,
                         "Cacao",
                         ""
@@ -70,6 +80,17 @@ public class DatosInicialesConfig {
                                 productoInvalido1,
                                 productoInvalido2
                         )
+                );
+
+                System.out.println(
+                        "Se insertaron 5 productos iniciales en "
+                                + "tbl_productos_base_60."
+                );
+
+            } else {
+                System.out.println(
+                        "La tabla tbl_productos_base_60 ya contiene datos. "
+                                + "No se realizó una nueva inserción."
                 );
             }
         };
