@@ -4,11 +4,11 @@
 > sincrónica** del examen. Toma menos de 5 minutos y es lo único con horario fijo:
 > después trabajas a tu ritmo hasta el plazo del día siguiente.
 
-- **Nombre completo:**
-- **Cédula:**
-- **NRC:**
-- **Nonce del examen:**            <!-- código publicado por el docente en la sesión -->
-- **Fecha y hora de inicio:**      <!-- formato: 2026-XX-XX HH:MM -->
+- Nombre completo: Jose Hugo Grande Velasquez
+- Cédula: 1726353160
+- NRC: 30405
+- Nonce del examen: AGS-2026
+- Fecha y hora de inicio: 30/07/2026 19:27      <!-- formato: 2026-XX-XX HH:MM -->
 
 ---
 
@@ -35,6 +35,11 @@ se busca en una tabla.
 | 6 o 7 | Flores | floristerías premium |
 | 8 o 9 | Quinua | tiendas de alimentación saludable |
 
+- Últimos dos dígitos: 60
+- Tabla asignada: tbl_productos_base_60
+- Puerto asignado: 8160
+- Categoría asignada: Cacao
+  
 > ✅ **Autocomprobación:** mi puerto empieza por `81` y termina con los mismos dos
 > dígitos que el nombre de mi tabla.
 
